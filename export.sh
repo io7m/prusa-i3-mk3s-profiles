@@ -19,3 +19,5 @@ ${EXPORT} "filament/PETG_Eryone_2020-10-26_Fanless.ini" > "${FILAMENT}/PETG_Eryo
 ${EXPORT} "print/LH0.3_N0.4_FastPLA.ini"        > "${PRINT}/LH0.3_N0.4_FastPLA.ini"
 ${EXPORT} "print/LH0.3_N0.4_PETG.ini"           > "${PRINT}/LH0.3_N0.4_PETG.ini"
 ${EXPORT} "print/LH0.3_N0.4_PETGStrong.ini"     > "${PRINT}/LH0.3_N0.4_PETGStrong.ini"
+${EXPORT} "print/LH0.2_N0.4_PETG.ini"           > "${PRINT}/LH0.2_N0.4_PETG.ini"
+${EXPORT} "print/LH0.2_N0.4_PETGStrong.ini"     > "${PRINT}/LH0.2_N0.4_PETGStrong.ini"
