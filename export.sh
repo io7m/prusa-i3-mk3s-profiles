@@ -14,6 +14,7 @@ mkdir -p "${PRINT}"
 
 ${EXPORT} "filament/PETG_Eryone_2020-10-26.ini"         > "${FILAMENT}/PETG_Eryone_2020-10-26.ini"
 ${EXPORT} "filament/PETG_Eryone_2020-10-26_Fanless.ini" > "${FILAMENT}/PETG_Eryone_2020-10-26_Fanless.ini"
+${EXPORT} "filament/PETG_Eryone_2020-10-26_Fan5.ini"    > "${FILAMENT}/PETG_Eryone_2020-10-26_Fan5.ini"
 
 ${EXPORT} "print/LH0.3_N0.4_FastPLA.ini"        > "${PRINT}/LH0.3_N0.4_FastPLA.ini"
 ${EXPORT} "print/LH0.3_N0.4_PETG.ini"           > "${PRINT}/LH0.3_N0.4_PETG.ini"
