@@ -18,6 +18,7 @@ package com.io7m.prusa.i3.mk3s.profiles;
 
 import com.io7m.claypot.core.CLPApplicationConfiguration;
 import com.io7m.claypot.core.Claypot;
+import com.io7m.prusa.i3.mk3s.profiles.internal.CommandBedMap;
 import com.io7m.prusa.i3.mk3s.profiles.internal.CommandInterpolate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public final class Main
       Claypot.create(
         CLPApplicationConfiguration.builder()
           .setLogger(LOG)
+          .addCommands(CommandBedMap::new)
           .addCommands(CommandInterpolate::new)
           .setProgramName("profiles")
           .setDocumentationURI(URI.create(
