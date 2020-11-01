@@ -17,7 +17,3 @@ jobs:
           java-version: 11
       - name: Build
         run: mvn --errors clean verify site
-      - name: Coverage
-        uses: codecov/codecov-action@v1
-        with:
-          file: com.io7m.prusa-i3-mk3s-profiles.tests/target/site/jacoco/jacoco.xml
