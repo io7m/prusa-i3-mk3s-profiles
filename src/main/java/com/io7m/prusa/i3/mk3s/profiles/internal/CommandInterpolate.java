@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.SortedMap;
@@ -65,21 +66,45 @@ public final class CommandInterpolate extends CLPAbstractCommand
     final var parameters =
       this.interpolate(stack);
 
+    try (var stream = CommandInterpolate.class.getResourceAsStream(
+      "/com/io7m/prusa/i3/mk3s/profiles/header.txt")) {
+      stream.transferTo(System.out);
+    }
+
+    System.out.printf("#  Source: https://www.github.com/io7m/prusa-i3-mk3s-profiles\n");
+    System.out.printf("#\n");
+    for (int index = stack.size() - 1; index >= 0; --index) {
+      final var superclass = stack.get(index);
+      if (index == stack.size() - 1) {
+        System.out.printf("#  Profile: %s\n", superclass.file.getFileName());
+      } else {
+        System.out.printf("#         ↳ %s\n", superclass.file.getFileName());
+      }
+    }
+    System.out.printf("#\n");
+    System.out.println();
+
     for (final var key : parameters.keySet()) {
-      System.out.printf("%s = %s\n", key, parameters.get(key));
+      final var value = parameters.get(key);
+      if (!value.isBlank()) {
+        System.out.printf("%s = %s\n", key, value);
+      } else {
+        System.out.printf("%s =\n", key);
+      }
     }
 
     return Status.SUCCESS;
   }
 
   private SortedMap<String, String> interpolate(
-    final List<Properties> stack)
+    final List<Superclass> stack)
   {
     final var parameters = new TreeMap<String, String>();
-    for (final var props : stack) {
+    for (final var superclass : stack) {
+      final var props = superclass.properties;
       for (final var key : props.keySet()) {
         final var keyS = (String) key;
-        final var valS = props.getProperty(keyS);
+        final var valS = props.getProperty(keyS).replace("\n", "\\n");
         parameters.put(keyS, valS);
       }
     }
@@ -87,11 +112,27 @@ public final class CommandInterpolate extends CLPAbstractCommand
     return parameters;
   }
 
-  private List<Properties> inheritanceStack(
+  private static final class Superclass
+  {
+    private Properties properties;
+    private Path file;
+
+    Superclass(
+      final Properties inProperties,
+      final Path inFile)
+    {
+      this.properties =
+        Objects.requireNonNull(inProperties, "properties");
+      this.file =
+        Objects.requireNonNull(inFile, "file");
+    }
+  }
+
+  private List<Superclass> inheritanceStack(
     final Path fileRoot)
     throws IOException
   {
-    final var stack = new LinkedList<Properties>();
+    final var stack = new LinkedList<Superclass>();
 
     var fileCurrent = fileRoot;
     while (true) {
@@ -102,7 +143,7 @@ public final class CommandInterpolate extends CLPAbstractCommand
       try (var stream = Files.newInputStream(fileCurrent)) {
         properties.load(stream);
       }
-      stack.addFirst(properties);
+      stack.addFirst(new Superclass(properties, fileCurrent));
 
       final var inherits =
         Optional.ofNullable(properties.getProperty("inherits"))

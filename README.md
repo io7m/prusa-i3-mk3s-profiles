@@ -13,3 +13,13 @@ prusa-i3-mk3s-profiles
 | OpenJDK Current | Linux    | [![Build (OpenJDK Current, Linux)](https://img.shields.io/github/workflow/status/io7m/prusa-i3-mk3s-profiles/main-openjdk_current-linux)](https://github.com/io7m/prusa-i3-mk3s-profiles/actions?query=workflow%3Amain-openjdk_current-linux)
 | OpenJDK Current | Windows  | [![Build (OpenJDK Current, Windows)](https://img.shields.io/github/workflow/status/io7m/prusa-i3-mk3s-profiles/main-openjdk_current-windows)](https://github.com/io7m/prusa-i3-mk3s-profiles/actions?query=workflow%3Amain-openjdk_current-windows)
 
+## Building
+
+```
+$ mvn package && ./export.sh
+```
+
+This will compile all of the profiles to `target/profiles`. The profiles
+can then be copied to the `.PrusaSlicer` configuration directory on your
+system.
+
